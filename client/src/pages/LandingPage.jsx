@@ -1,4 +1,5 @@
 import "../styles/LandingPage.css";
+import {useNavigate} from "react-router-dom"
 
 const problems = [
   {
@@ -47,6 +48,9 @@ const benefits = [
 ];
 
 export default function LandingPage() {
+
+  const navigate = useNavigate()
+
   return (
     <div
       className="min-h-screen text-white overflow-x-hidden relative"
@@ -109,7 +113,7 @@ export default function LandingPage() {
             each employee — cutting training time and eliminating skill gaps automatically.
           </p>
 
-          <button className="cta-btn">Get Started →</button>
+          <button className="cta-btn" onClick={() => {navigate("/auth/signup")}}>Get Started →</button>
         </div>
 
         <div

@@ -1,0 +1,17 @@
+.auth-form-bottom-text {
+  color: rgba(255,255,255,0.55);
+  padding-bottom: 1px;
+  cursor: pointer;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s ease;
+  text-decoration: none;
+}
+
+.auth-form-bottom-text:hover {
+  border-bottom: 1px solid rgba(255,255,255,0.4);
+}
+
+.auth-form-bottom-text a {
+  color: inherit;
+  text-decoration: none;
+}

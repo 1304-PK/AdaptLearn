@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import SignupForm from "./pages/SignupForm";
 import LoginForm from "./pages/LoginForm";
+import HrDashboard from "./pages/HrDashboard";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
@@ -24,6 +25,14 @@ const router = createBrowserRouter([
         element: <PublicRoute>
             <LoginForm />
         </PublicRoute>
+    },
+    {
+        path: "/admin/dashboard",
+        element: (
+            <ProtectedRoute>
+                <HrDashboard />
+            </ProtectedRoute>
+        )
     }
 ])
 

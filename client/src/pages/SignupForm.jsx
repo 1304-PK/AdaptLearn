@@ -1,7 +1,7 @@
 import { useState } from "react"
 import AuthForm from "../components/AuthForm"
-
 import supabase from "../lib/supabaseClient"
+import { useAuth } from "../context/AuthContext"
 
 const SignupForm = () => {
 
@@ -11,8 +11,19 @@ const SignupForm = () => {
     password: '',
   })
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async(e) => {
         e.preventDefault()
+        const {data, error} = await supabase.auth.signUp({
+            email: formData.email,
+            password: formData.password,
+            options: {
+                data: {
+                    full_name: formData.name,
+                    role: "hr"
+                }
+            }
+        })
+        console.log(data)
     }
 
     const onChange = (e) => {

@@ -210,9 +210,6 @@ export default function EmployeePopupForm({ isOpen, onClose, onSubmit, formData,
               />
             </div>
             <div className="ep-divider" />
-
-            <UploadZone label="Resume" file={formData.resume} onChange={handleFile("resume")} id="resume-upload" />
-            <UploadZone label="Job Description" file={formData.jobDescription} onChange={handleFile("jobDescription")} id="jd-upload" />
           </div>
 
 
@@ -221,7 +218,6 @@ export default function EmployeePopupForm({ isOpen, onClose, onSubmit, formData,
             <button
               className={`add-btn ${submitted ? "submit-success" : ""}`}
               onClick={handleSubmit}
-              disabled={!isValid}
               style={{ opacity: isValid ? 1 : 0.35, cursor: isValid ? "pointer" : "not-allowed" }}
             >
               {submitted ? (

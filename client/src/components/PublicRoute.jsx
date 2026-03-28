@@ -7,33 +7,16 @@ const PublicRoute = ({children}) => {
 
     const {session, loading, user} = useAuth()
     const navigate = useNavigate()
-
+    console.log(user)
     useEffect(() => {
         const getRole = async () => {
     if (!user) return;
 
-          let role;
 
-    const { data, error } = await supabase
-      .from('hr_table')
-      .select('role')
-      .eq('id', user.id)
-      .single();
-
-    if (data) role = "hr"
-    else{
-      const { data: eData, error: eError } = await supabase
-      .from('employees')
-      .select('role')
-      .eq('id', user.id)
-      .single();
-      role = "employees"
-    }
-
-    if (role === 'hr') {
+    if (user.user_metadata.role === 'hr') {
       navigate("/admin/dashboard", {replace: true})
-    } else if (data?.role === 'employee') {
-      console.log("employee"); 
+    } else if (user.user_metadata.role === 'employee') {
+      navigate("/employee"); 
     }
   };
         if (!loading && session){

@@ -128,7 +128,7 @@ export default function AuthForm({ mode, title, btnText, googleAuthText, bottomT
                     </div>}
 
                     {/* Name Field */}
-                    <div className="mb-4">
+                    {mode=="signup" && <div className="mb-4">
                         <label
                             style={{
                                 display: "block",
@@ -168,7 +168,7 @@ export default function AuthForm({ mode, title, btnText, googleAuthText, bottomT
                                 e.target.style.background = "rgba(255,255,255,0.04)";
                             }}
                         />
-                    </div>
+                    </div>}
                     {/* Email Field */}
                     <div className="mb-4">
                         <label

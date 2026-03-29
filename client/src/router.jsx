@@ -9,6 +9,7 @@ import EmployeeDashboard from "./pages/EmployeeDashboard";
 import UploadDocuments from "./pages/UploadDocuments";
 import EmployeeMetrics from "./pages/EmployeeMetrics";
 import EmployeeRoadmap from "./pages/EmployeeRoadmap";
+import NodeContent from "./pages/NodeContent";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
@@ -57,6 +58,10 @@ const router = createBrowserRouter([
             {
                 path: "roadmap",
                 element: <EmployeeRoadmap />
+            },
+            {
+                path: "node/:id",
+                element: <NodeContent />
             }
         ]
     }

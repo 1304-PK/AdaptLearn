@@ -13,35 +13,63 @@ const HrDashboard = () => {
     jobTitle: "",
     department: "",
     joiningDate: "",
-    resume: null,
-    jobDescription: null,
   })
+
+  const handleLogOut = async () => {
+    const {error} = await supabase.auth.signOut()
+  }
 
   const handleFormSubmit = async (e) => {
     e.preventDefault()
     setBtnLoading(true)
-    try {const {data, error} = await supabase
-    .from("employees")
-    .insert([{
-      full_name: formData.fullName,
-      employee_id: formData.employeeId,
-      job_title: formData.jobTitle,
-      department: formData.department,
-      joining_date: formData.joiningDate,
-      created_by: session.user.id,
-      employee_email: formData.employeeEmail
-    }])
 
-    if (error) throw error
+    try {
+    const response = await fetch("http://localhost:3000/api/create-user", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        employee_email: formData.employeeEmail,
+        password: formData.fullName.split(' ')[0], 
+        full_name: formData.fullName,
+        employee_id: formData.employeeId,
+        job_title: formData.jobTitle,
+        department: formData.department,
+        joining_date: formData.joiningDate,
+        created_by: session.user.id,
+      }),
+    });
 
-    console.log("successfully registered")
-  } 
-  catch(err){
-    console.error(err.message)
-  }
-  finally{
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || "Failed to create employee");
+    }
+
+    console.log("user created")
+    
+  } catch (error) {
+    console.error("Error in frontend request:", error.message);
+    alert(error.message);
+  } finally{
     setBtnLoading(false)
   }
+
+    // Send pdf and resume to server
+    // const fileFormData = new FormData()
+    // fileFormData.append("resume", formData.resume)
+    // fileFormData.append("jobDescription", formData.jobDescription)
+
+    // const res = await fetch("http://localhost:3000/api/get-analysis", {
+    //   method: "POST",
+    //   body: fileFormData
+    // })
+
+    // const data = await res.json()
+    // console.log(data)
+
+  
 
   }
   return (
@@ -55,6 +83,8 @@ const HrDashboard = () => {
         setFormData={setFormData}
         btnLoading={btnLoading}
       />
+
+      <button onClick={handleLogOut}>Log Out</button>
     </div>
   )
 }

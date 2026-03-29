@@ -6,42 +6,84 @@ import { useNavigate } from "react-router-dom";
 
 const UploadDocuments = () => {
 
-    const {session} = useAuth()
-    const navigate = useNavigate()
+  const { session } = useAuth()
+  const navigate = useNavigate()
 
   const [resume, setResume] = useState(null);
   const [jobDescription, setJobDescription] = useState(null);
 
-    const handleSubmit = async () => {
-        const formData = new FormData()
+  const handleSubmit = async () => {
+    const formData = new FormData()
 
-        formData.append("resume", resume)
-        formData.append("jobDescription", jobDescription)
-        try{
-            const res = await fetch("http://localhost:3000/api/get-analysis", {
-                method: "POST",
-                body: formData
-            })
+    formData.append("resume", resume)
+    formData.append("jobDescription", jobDescription)
+    try {
+      const res = await fetch("http://localhost:3000/api/get-analysis", {
+        method: "POST",
+        body: formData
+      })
 
-            const data = await res.json()
-            console.log(data)
-            const {data: mData, error: mError} = await supabase
-            .from('employee_metrics')
-            .insert([{
-                user_id: session.user.id,
-                resume_metrics: data
-            }])
+      const data = await res.json()
+      console.log(data)
 
-            if (mError) throw mError
+      // Saving the jsonb data
 
-            navigate("/employee/metrics")
+      const { data: mData, error: mError } = await supabase
+        .from('employee_metrics')
+        .insert([{
+          user_id: session.user.id,
+          resume_metrics: data
+        }])
 
-        }
-        catch(err){
-            console.error(err.message)
-        }
+      if (mError) throw mError
+
+      // Saving Node Data
+      // Saving Node Data + YouTube links
+      for (const [index, item] of data.skillBars.entries()) {
+        // 1. Insert node and get back its id
+        const { data: nData, error: nError } = await supabase
+          .from("nodes")
+          .insert([{
+            user_id: session.user.id,
+            title: item.skill_name,
+            node_order: index
+          }])
+          .select("id")  
+          .single()
+
+        if (nError) throw nError
+
+        const nodeId = nData.id
+
+        const ytRes = await fetch("http://localhost:3000/api/get-youtube-links", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ skill: item.skill_name })
+        })
+
+        const ytData = await ytRes.json() // expects { videos: [...] }
+
+        const { error: cError } = await supabase
+          .from("node_content")
+          .insert([{
+            node_id: nodeId,
+            user_id: session.user.id,
+            youtube_videos: ytData.videos  
+          }])
+
+        if (cError) throw cError
+      }
+
+
+
+      navigate("/employee/resume-metrics")
 
     }
+    catch (err) {
+      console.error(err.message)
+    }
+
+  }
 
   return (
     <div>
@@ -69,7 +111,7 @@ const UploadDocuments = () => {
       `}</style>
 
       <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center px-6 py-12 font-mono-custom">
-        
+
         {/* Header */}
         <div className="text-center mb-14">
           <h1 className="font-bebas text-[52px] tracking-[0.1em] text-[#e0e0e0] leading-none max-sm:text-[38px]">
@@ -79,7 +121,7 @@ const UploadDocuments = () => {
 
         {/* Upload Grid */}
         <div className="flex gap-8 items-start flex-wrap justify-center max-sm:gap-10">
-          
+
           {/* Resume */}
           <div className="flex flex-col gap-2.5">
             <p className="font-bebas text-[22px] tracking-[0.12em] text-[#888] leading-none">
@@ -102,7 +144,7 @@ const UploadDocuments = () => {
 
         <button
 
-        onClick={handleSubmit}
+          onClick={handleSubmit}
 
           className="
             mt-12!

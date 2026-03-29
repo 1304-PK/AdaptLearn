@@ -166,7 +166,10 @@ Scoring:
 
 SKILL BAR RULES
 
-Extract ALL skills from job description.
+Extract RELEVANT AND IMPORTANT skills from job description.
+If two or more skills have very high similarity then group them together in one skill.
+Keep the maximum number of skill to 12.
+
 
 For each:
 
@@ -401,24 +404,27 @@ this is how the final json should look like and avoid using /n or anything like 
         const response = await result.response;
         const rawText = JSON.parse(response.text())
         console.log(rawText)
+        console.log(rawText.summary_metrics)
+        console.log(rawText.spider_graph)
+        const skillScore = (rawText.summary_metrics.skills.total_relevant_skills_found_in_resume / rawText.summary_metrics.skills.total_skills_required_in_jd) * 100
 
-        // const skillScore = (rawText.analysis.summary_metrics.skills.total_relevant_skills_found_in_resume/rawText.analysis.summary_metrics.skills.total_skills_required_in_jd)*100
+        const experienceScore = (rawText.summary_metrics.experience.relevant_years_in_resume_to_jd / rawText.summary_metrics.experience.years_required_by_jd) * 100
 
-        // const experienceScore = (rawText.analysis.summary_metrics.experience.relevant_years_in_resume_to_jd/rawText.analysis.summary_metrics.experience.years_required_by_jd)*100
+        const keywordsScore = (rawText.summary_metrics.keywords.total_matched_keywords_in_resume / rawText.summary_metrics.keywords.total_critical_keywords_in_jd) * 100
 
-        // const keywordsScore = (rawText.analysis.summary_metrics.keywords.total_matched_keywords_in_resume/rawText.analysis.summary_metrics.keywords.total_critical_keywords_in_jd)*100
+        const overallScore = (0.5 * skillScore) + (0.3 * experienceScore) + (0.2 * keywordsScore)
 
         res.json({
-            // skillScore,
-            // experienceScore,
-            // keywordsScore,
-            // transferabilityScore: rawText.analysis.summary_metrics.global_transferability_score,
-            // transferabilityLogic: rawText.analysis.summary_metrics.transferability_logic,
-            // spiderGraph: rawText.analysis.spider_graph,
-            // skillBars: rawText.analysis.skill_bars,
-            // missingCriticalSkills: rawText.analysis.delta_analysis.critical_skills_missing,
-            // extraSkills: rawText.analysis.delta_analysis.extra_value_skills_not_in_jd
-            rawText
+            skillScore,
+            experienceScore,
+            keywordsScore,
+            overallScore,
+            transferabilityScore: rawText.summary_metrics.global_transferability_score,
+            transferabilityLogic: rawText.summary_metrics.transferability_logic,
+            spiderGraph: rawText.spider_graph,
+            skillBars: rawText.skill_bars,
+            missingCriticalSkills: rawText.delta_analysis.critical_skills_missing,
+            extraSkills: rawText.delta_analysis.extra_value_skills_not_in_jd
         });
 
     } catch (error) {
@@ -467,6 +473,33 @@ app.post("/api/create-user", async (req, res) => {
     } catch (error) {
         console.error("Signup Error:", error.message);
         return res.status(400).json({ error: error.message });
+    }
+});
+
+app.post("/api/get-youtube-links", async (req, res) => {
+    const { skill } = req.body;
+
+    if (!skill) return res.status(400).json({ error: "skill is required" });
+
+    try {
+        const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
+
+        const searchRes = await fetch(
+            `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(skill + " tutorial")}&type=video&maxResults=2&key=${YOUTUBE_API_KEY}`
+        );
+
+        const searchData = await searchRes.json();
+        console.log("YouTube API response:", JSON.stringify(searchData, null, 2)); // add this
+        
+        const videos = searchData.items.map((item) => ({
+            url: `https://www.youtube.com/watch?v=${item.id.videoId}`,
+        }));
+
+        res.json({ videos });
+
+    } catch (err) {
+        console.error("YouTube fetch error:", err.message);
+        res.status(500).json({ error: "Failed to fetch YouTube links" });
     }
 });
 

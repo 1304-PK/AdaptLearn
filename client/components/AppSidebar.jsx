@@ -4,8 +4,10 @@ import {
   Map, 
   User, 
   GraduationCap, 
-  ChevronUp 
+  ChevronUp,
+  LogOut
 } from "lucide-react"
+
 
 import {
   Sidebar,
@@ -27,7 +29,7 @@ const menuItems = [
   { title: "Progress", url: "/progress", icon: User },
 ]
 
-export function AppSidebar() {
+export function AppSidebar({handleLogOut}) {
   return (
     <Sidebar collapsible="icon" className="p-0 m-0">
       {/* 1. The Header */}
@@ -65,6 +67,15 @@ export function AppSidebar() {
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
+
+              <SidebarMenuItem>
+                <SidebarMenuButton asChild tooltip={"Log Out"}>
+                  <button onClick={handleLogOut}>
+                    <LogOut/>
+                    Log Out
+                  </button>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

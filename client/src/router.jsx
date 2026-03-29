@@ -8,6 +8,7 @@ import HrDashboard from "./pages/HrDashboard";
 import EmployeeDashboard from "./pages/EmployeeDashboard";
 import UploadDocuments from "./pages/UploadDocuments";
 import EmployeeMetrics from "./pages/EmployeeMetrics";
+import EmployeeRoadmap from "./pages/EmployeeRoadmap";
 
 import ProtectedRoute from "./components/ProtectedRoute";
 import PublicRoute from "./components/PublicRoute";
@@ -52,6 +53,10 @@ const router = createBrowserRouter([
             {
                 path: "resume-metrics",
                 element: <EmployeeMetrics />
+            },
+            {
+                path: "roadmap",
+                element: <EmployeeRoadmap />
             }
         ]
     }

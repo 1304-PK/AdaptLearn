@@ -13,7 +13,7 @@ const SignupForm = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault()
-        const {data, error} = await supabase.auth.signUp({
+        try{const {data, error} = await supabase.auth.signUp({
             email: formData.email,
             password: formData.password,
             options: {
@@ -23,7 +23,14 @@ const SignupForm = () => {
                 }
             }
         })
+
+        if (error) throw error
         console.log(data)
+      
+      }
+      catch(error){
+        console.error(error.message)
+      }
     }
 
     const onChange = (e) => {

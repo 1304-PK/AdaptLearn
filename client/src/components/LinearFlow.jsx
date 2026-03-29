@@ -1,4 +1,5 @@
 import { useCallback, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import ReactFlow, {
   Background,
   Controls,
@@ -12,6 +13,8 @@ import "reactflow/dist/style.css";
 
 // ─── Custom Node ────────────────────────────────────────────────────────────
 
+
+
 const COLORS = [
   { bg: "#FF4D4D", text: "#fff", shadow: "#FF4D4D" },   // red
   { bg: "#FF9F1C", text: "#fff", shadow: "#FF9F1C" },   // amber
@@ -24,10 +27,13 @@ const COLORS = [
 ];
 
 function BlockNode({ data }) {
+  
+const navigate = useNavigate()
   const color = COLORS[data.colorIndex % COLORS.length];
 
   return (
     <div
+    onClick={() => {navigate(`/employee/node/${data.id}`)}}
       style={{
         background: color.bg,
         boxShadow: `0 0 24px ${color.shadow}55, 0 4px 16px #0008`,
@@ -131,7 +137,8 @@ function buildGraph(items) {
     type: "block",
     position: { x: i * NODE_GAP, y: 160 },
     data: {
-      label: item.skill_name,
+      label: item.title,
+      id: item.id,
       index: i,
       colorIndex: i,
       isFirst: i === 0,
@@ -238,7 +245,12 @@ export default function LinearFlow({
         fitView
         minZoom={0.3}
         maxZoom={2}
-        style={{ background: "#0D0D0F", paddingTop: 48 }}
+        style={{
+          backgroundColor: "#0D0D0F",
+          backgroundImage: "radial-gradient(circle, #3a3a3a 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+          paddingTop: 48
+        }}
         proOptions={{ hideAttribution: true }}
       >
         <Background
@@ -255,7 +267,7 @@ export default function LinearFlow({
             boxShadow: "none",
           }}
         />
-        <MiniMap
+        {/* <MiniMap
           nodeColor={(n) =>
             COLORS[n.data?.colorIndex % COLORS.length]?.bg ?? "#888"
           }
@@ -265,7 +277,7 @@ export default function LinearFlow({
             borderRadius: 10,
           }}
           maskColor="#0D0D0Fcc"
-        />
+        /> */}
       </ReactFlow>
     </div>
   );

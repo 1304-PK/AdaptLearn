@@ -8,7 +8,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     if (!loading && !session) {
-      navigate("/auth/signup");
+      navigate("/auth/login");
     }
   }, [session, loading, navigate]);
 

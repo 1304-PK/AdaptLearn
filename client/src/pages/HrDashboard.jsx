@@ -54,7 +54,7 @@ export default function EmployeeDashboard() {
     setBtnLoading(true)
 
     try {
-    const response = await fetch("http://localhost:3000/api/create-user", {
+    const response = await fetch(`${import.meta.env.VITE_PUBLIC_API_KEY || "http://localhost:3000"}/api/create-user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

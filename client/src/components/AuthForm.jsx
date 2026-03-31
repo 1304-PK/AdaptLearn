@@ -1,8 +1,9 @@
 import { NavLink } from "react-router-dom";
 import { useState } from "react";
 import "../styles/AuthForm.css"
+import { BeatLoader } from "react-spinners"
 
-export default function AuthForm({ mode, title, btnText, googleAuthText, bottomText, bottomTextLink, handleSubmit, role, setRole, formData, onChange }) {
+export default function AuthForm({ mode, title, btnText, googleAuthText, bottomText, bottomTextLink, handleSubmit, role, setRole, formData, onChange, loading }) {
 
     return (
         <div className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden">
@@ -11,8 +12,8 @@ export default function AuthForm({ mode, title, btnText, googleAuthText, bottomT
                 className="absolute inset-0 pointer-events-none"
                 style={{
                     backgroundImage: `
-            linear-gradient(rgba(255,255,255,0.045) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255,255,255,0.045) 1px, transparent 1px)
+            linear-gradient(rgba(255,255,255,0.06) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.06) 1px, transparent 1px)
           `,
                     backgroundSize: "48px 48px",
                 }}
@@ -103,6 +104,7 @@ export default function AuthForm({ mode, title, btnText, googleAuthText, bottomT
                         {["employee", "hr"].map((r) => (
                             <button
                                 key={r}
+                                type="button"
                                 onClick={() => setRole(r)}
                                 className="flex-1 py-2 rounded-lg text-sm font-medium"
                                 style={{
@@ -128,7 +130,7 @@ export default function AuthForm({ mode, title, btnText, googleAuthText, bottomT
                     </div>}
 
                     {/* Name Field */}
-                    {mode=="signup" && <div className="mb-4">
+                    {mode == "signup" && <div className="mb-4">
                         <label
                             style={{
                                 display: "block",
@@ -255,6 +257,7 @@ export default function AuthForm({ mode, title, btnText, googleAuthText, bottomT
                     </div>
                     {/* Auth Button */}
                     <button
+                        disabled={loading}
                         className="w-full py-3 rounded-xl text-sm font-semibold tracking-widest mb-6"
                         type="submit"
                         style={{
@@ -268,10 +271,10 @@ export default function AuthForm({ mode, title, btnText, googleAuthText, bottomT
                             border: "none",
                             boxShadow:
                                 "0 1px 0 rgba(255,255,255,1) inset, 0 -1px 0 rgba(0,0,0,0.2) inset, 0 4px 16px rgba(0,0,0,0.4), 0 1px 3px rgba(0,0,0,0.3)",
-                            cursor: "pointer",
+                            cursor: loading ? "default" : "pointer",
                         }}
                     >
-                        {btnText}
+                        {loading ? <BeatLoader /> : btnText}
                     </button>
                     {/* Divider */}
                     <div className="flex items-center gap-3 mb-6">

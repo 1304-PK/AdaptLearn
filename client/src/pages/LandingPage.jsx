@@ -1,5 +1,6 @@
 import "../styles/LandingPage.css";
 import {useNavigate} from "react-router-dom"
+import IntroAnimation from "../components/IntroAnimation";
 
 const problems = [
   {
@@ -52,10 +53,168 @@ export default function LandingPage() {
   const navigate = useNavigate()
 
   return (
+    <>
+    <IntroAnimation />
     <div
       className="min-h-screen text-white overflow-x-hidden relative"
       style={{ background: "#080808" }}
     >
+      <div
+  className="relative w-full h-screen overflow-hidden flex flex-col items-center justify-center"
+  style={{ background: "#0a0a0a" }}
+>
+  {/* Radial glow - top center (greenish-white bloom) */}
+  <div
+    className="absolute pointer-events-none"
+    style={{
+      top: "-10%",
+      left: "50%",
+      transform: "translateX(-50%)",
+      width: "700px",
+      height: "700px",
+      background:
+        "radial-gradient(ellipse at center, rgba(180,210,185,0.38) 0%, rgba(140,175,150,0.18) 35%, transparent 70%)",
+      filter: "blur(8px)",
+    }}
+  />
+
+  {/* Radial glow - bottom right */}
+  <div
+    className="absolute pointer-events-none"
+    style={{
+      bottom: "-5%",
+      right: "-5%",
+      width: "500px",
+      height: "500px",
+      background:
+        "radial-gradient(ellipse at center, rgba(160,195,170,0.22) 0%, rgba(120,160,135,0.1) 40%, transparent 70%)",
+      filter: "blur(12px)",
+    }}
+  />
+
+  {/* Play button - top center */}
+  <div className="absolute top-16 left-1/2 -translate-x-1/2 z-10">
+    <button
+      className="flex items-center justify-center rounded-full border border-white/20 bg-white/10 backdrop-blur-sm"
+      style={{ width: "44px", height: "44px" }}
+    >
+      <svg width="14" height="16" viewBox="0 0 14 16" fill="white">
+        <path d="M2 1.5l10 6.5-10 6.5V1.5z" />
+      </svg>
+    </button>
+  </div>
+
+  {/* Notification pill - top center below play button */}
+  <div className="absolute z-10" style={{ top: "160px", left: "50%", transform: "translateX(-50%)" }}>
+    <div
+      className="flex items-center gap-2 px-4 py-2 rounded-full border border-white/20 bg-black/40 backdrop-blur-md text-white/80 text-sm whitespace-nowrap"
+      style={{ fontFamily: "'DM Sans', sans-serif" }}
+    >
+      <span>One-click for Instant Training Roadmap</span>
+      <span className="text-white/50">→</span>
+    </div>
+  </div>
+
+  {/* Main headline */}
+  <div className="relative z-10 text-center px-6" style={{ marginTop: "32px" }}>
+    <h1
+      className="text-white leading-none tracking-tight"
+      style={{
+        fontFamily: "'Sora', 'DM Sans', sans-serif",
+        fontWeight: 700,
+        fontSize: "clamp(52px, 8vw, 70px)",
+        letterSpacing: "-0.03em",
+        lineHeight: 1.0,
+      }}
+    >
+      Reduce Weeks of Training to a Single Upload
+    </h1>
+
+    {/* Subheadline */}
+    <p
+      className="mt-5 text-white/55"
+      style={{
+        fontFamily: "'DM Sans', sans-serif",
+        fontSize: "clamp(14px, 1.4vw, 18px)",
+        fontWeight: 400,
+        letterSpacing: "0.01em",
+      }}
+    >
+      Upload a resume and job description and get a personalized AI-powered training plan ready before day one.{" "}
+      <span className="text-white/80 italic">expertise</span>
+    </p>
+
+    {/* CTA buttons */}
+    <div className="flex items-center justify-center gap-3 mt-10">
+      {/* Open App */}
+      <button
+      onClick={() => {navigate("/auth/login")}}
+        className="flex items-center gap-2 px-6 py-3 rounded-full border border-white/25 bg-black/50 text-white backdrop-blur-sm transition-all hover:bg-white/10 cursor-pointer"
+        style={{
+          fontFamily: "'DM Sans', sans-serif",
+          fontSize: "15px",
+          fontWeight: 500,
+        }}
+      >
+        Get Started
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M2 10L10 2M10 2H4M10 2V8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  {/* Bottom vertical chart lines */}
+  <div
+    className="absolute bottom-0 left-1/2 -translate-x-1/2 flex items-end gap-1.5 z-10"
+    style={{ paddingBottom: "0px" }}
+  >
+    {[60, 90, 130, 170, 140, 100, 70].map((h, i) => (
+      <div
+        key={i}
+        className="rounded-t-sm"
+        style={{
+          width: "5px",
+          height: `${h}px`,
+          background: "rgba(255,255,255,0.18)",
+        }}
+      />
+    ))}
+  </div>
+
+  {/* Bottom left - scroll indicator */}
+  <div className="absolute bottom-6 left-6 flex items-center gap-3 z-10">
+    <div
+      className="flex items-center justify-center rounded-full border border-white/25 bg-black/40"
+      style={{ width: "32px", height: "32px" }}
+    >
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <path d="M7 2v10M3 8l4 4 4-4" stroke="white" strokeOpacity="0.7" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
+    </div>
+    <span
+      className="text-white/40 text-xs tracking-widest"
+      style={{ fontFamily: "'DM Sans', sans-serif" }}
+    >
+      Scroll down
+    </span>
+  </div>
+
+  {/* Bottom right - DeFi horizons label + progress bar */}
+  <div className="absolute bottom-6 right-6 z-10">
+    <p
+      className="text-white/50 text-xs mb-2 text-right tracking-wider"
+      style={{ fontFamily: "'DM Sans', sans-serif" }}
+    >
+      Adapt Learn
+    </p>
+    <div className="flex gap-1">
+      <div className="rounded-full bg-white/90" style={{ width: "28px", height: "3px" }} />
+      <div className="rounded-full bg-white/25" style={{ width: "50px", height: "3px" }} />
+      <div className="rounded-full bg-white/25" style={{ width: "50px", height: "3px" }} />
+    </div>
+  </div>
+</div>
       {/* GLOBAL GRID BACKGROUND */}
       <div className="grid-bg">
         <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
@@ -69,7 +228,7 @@ export default function LandingPage() {
       </div>
 
       {/* HERO SECTION */}
-      <section
+      {/* <section
         className="relative min-h-screen flex flex-col items-center justify-center px-6 text-center"
         style={{ background: "#080808", zIndex: 1 }}
       >
@@ -127,7 +286,7 @@ export default function LandingPage() {
             pointerEvents: "none",
           }}
         />
-      </section>
+      </section> */}
 
       {/* PROBLEM STATEMENT SECTION */}
       <section className="relative py-28 px-6" style={{ zIndex: 1 }}>
@@ -272,10 +431,10 @@ export default function LandingPage() {
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div>
             <span className="font-bold block mb-2" style={{ fontSize: "1rem", letterSpacing: "-0.02em" }}>
-              Coursify<span style={{ color: "#444" }}>.ai</span>
+              Adapt Learn<span style={{ color: "#444" }}></span>
             </span>
             <p className="mono" style={{ fontSize: "0.78rem", color: "#3a3a3a" }}>
-              AI-powered training for modern teams.
+              AI-powered roadmap for new recruits.
             </p>
           </div>
 
@@ -286,10 +445,11 @@ export default function LandingPage() {
           </div>
 
           <p className="mono" style={{ fontSize: "0.72rem", color: "#2e2e2e" }}>
-            © {new Date().getFullYear()} Coursify.ai. All rights reserved.
+            © {new Date().getFullYear()} Adapt Learn. All rights reserved.
           </p>
         </div>
       </footer>
     </div>
+    </>
   );
 }

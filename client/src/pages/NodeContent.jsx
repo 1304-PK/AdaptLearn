@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import supabase from "../lib/supabaseClient";
+import { useNavigate } from "react-router-dom";
 
 function getYouTubeId(url) {
   const regExp =
@@ -9,15 +10,10 @@ function getYouTubeId(url) {
   return match ? match[1] : null;
 }
 
-export default function NodeContent({
-  heading = "Watch Our Latest Films",
-  videos = [
-    { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
-    { url: "https://www.youtube.com/watch?v=9bZkp7q19f0" },
-  ],
-}) 
+export default function NodeContent() 
 {
 
+  const navigate = useNavigate()
     const {id} = useParams()
     const [content, setContent] = useState(null)
     useEffect(() => {
@@ -49,7 +45,6 @@ export default function NodeContent({
         getContent()
     }, [])
 
-    console.log(id)
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -58,7 +53,7 @@ export default function NodeContent({
 
   if (content) return (
     <>
-    {console.log(content)}
+
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@300;400&display=swap');
 
@@ -105,7 +100,14 @@ export default function NodeContent({
         }
       `}</style>
 
-      <div className="relative min-h-screen bg-[#080808] flex flex-col items-center justify-center px-6 py-20 overflow-hidden font-dm-mono">
+      <div className="relative h-screen bg-[#080808] flex flex-col items-center justify-center px-6 py-20 overflow-hidden font-dm-mono">
+
+        <div className="text-white self-start">
+          <button
+          onClick={() => {navigate("/employee/roadmap")}}
+          className="bg-gray-800 p-3 rounded-xl cursor-pointer border-2 border-gray-600"
+          >Back to Roadmap</button>
+        </div>
 
         {/* Ambient blobs */}
         <div className={`blob blob-1 ${mounted ? "show" : ""}`} />
@@ -179,7 +181,13 @@ export default function NodeContent({
         </div>
       </div>
     </>
-  );
+  )
+
+  return(
+    <div className="bg-[#080808] min-h-screen min-w-full text-white flex items-center justify-center text-2xl">
+      <p className="">Loading Content...</p>
+    </div>
+  )
 }
 
 // export default function App() {

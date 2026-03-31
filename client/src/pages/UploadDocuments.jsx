@@ -21,15 +21,14 @@ const UploadDocuments = () => {
     formData.append("resume", resume)
     formData.append("jobDescription", jobDescription)
     try {
-      const res = await fetch("http://localhost:3000/api/get-analysis", {
+      const res = await fetch(`${VITE_PUBLIC_API_KEY || "http://localhost:3000"}/api/get-analysis`, {
         method: "POST",
         body: formData
       })
 
       const data = await res.json()
-      console.log(data)
 
-      // Saving the jsonb data
+      // Save the jsonb data
 
       const { data: mData, error: mError } = await supabase
         .from('employee_metrics')
@@ -43,7 +42,7 @@ const UploadDocuments = () => {
       // Saving Node Data
       // Saving Node Data + YouTube links
       for (const [index, item] of data.skillBars.entries()) {
-        // 1. Insert node and get back its id
+
         const { data: nData, error: nError } = await supabase
           .from("nodes")
           .insert([{
@@ -58,13 +57,13 @@ const UploadDocuments = () => {
 
         const nodeId = nData.id
 
-        const ytRes = await fetch("http://localhost:3000/api/get-youtube-links", {
+        const ytRes = await fetch(`${VITE_PUBLIC_API_KEY || "http://localhost:3000"}/api/get-youtube-links`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ skill: item.skill_name })
         })
 
-        const ytData = await ytRes.json() // expects { videos: [...] }
+        const ytData = await ytRes.json() 
 
         const { error: cError } = await supabase
           .from("node_content")
@@ -93,7 +92,6 @@ const UploadDocuments = () => {
 
   return (
     <div>
-      {/* Only keep what Tailwind can't handle */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Bebas+Neue&display=swap');
 

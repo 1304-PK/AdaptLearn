@@ -27,7 +27,7 @@ const menuItems = [
   { title: "Roadmap", url: "/employee/roadmap", icon: Map },
 ]
 
-export function AppSidebar({handleLogOut}) {
+export function AppSidebar({handleLogOut, user, email}) {
   return (
     <Sidebar collapsible="icon" className="p-0 m-0">
       {/* 1. The Header */}
@@ -89,8 +89,8 @@ export function AppSidebar({handleLogOut}) {
                 <User className="size-5" />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-semibold">Pushkar</span>
-                <span className="truncate text-xs">pushkar@example.com</span>
+                <span className="truncate font-semibold">{user}</span>
+                <span className="truncate text-xs">{email}</span>
               </div>
               <ChevronUp className="ml-auto size-4" />
             </SidebarMenuButton>

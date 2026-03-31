@@ -1,49 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import "../styles/EmployeePopupForm.css"
-
-function UploadZone({ label, file, onChange, id }) {
-  return (
-    <div>
-      <span className="label-text">{label}</span>
-      <div className={`upload-zone ${file ? "has-file" : ""}`}>
-        <input type="file" id={id} accept=".pdf" onChange={onChange} />
-        {file ? (
-          <div style={{ pointerEvents: "none" }}>
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ margin: "0 auto 6px", display: "block" }}>
-              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" fill="none" />
-              <polyline points="14 2 14 8 20 8" stroke="rgba(255,255,255,0.7)" strokeWidth="1.5" fill="none" />
-              <path d="M9 13h6M9 17h4" stroke="rgba(255,255,255,0.5)" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-            <p style={{ color: "rgba(255,255,255,0.8)", fontSize: 13, fontWeight: 500, margin: 0, lineHeight: 1.3, wordBreak: "break-all" }}>
-              {file.name}
-            </p>
-            <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 11, margin: "4px 0 0" }}>
-              {(file.size / 1024).toFixed(1)} KB · PDF
-            </p>
-          </div>
-        ) : (
-          <div style={{ pointerEvents: "none" }}>
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" style={{ margin: "0 auto 8px", display: "block", opacity: 0.3 }}>
-              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-              <polyline points="17 8 12 3 7 8" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
-              <line x1="12" y1="3" x2="12" y2="15" stroke="white" strokeWidth="1.5" strokeLinecap="round" />
-            </svg>
-            <p style={{ color: "rgba(255,255,255,0.3)", fontSize: 13, margin: "0 0 4px" }}>
-              Drop or click to upload
-            </p>
-            <span className="pill-tag">PDF only</span>
-          </div>
-        )}
-      </div>
-    </div>
-  );
-}
-
+import { BeatLoader } from "react-spinners";
 
 export default function EmployeePopupForm({ isOpen, onClose, onSubmit, formData, setFormData, btnLoading }) {
   const [hiding, setHiding] = useState(false);
-
-  const [submitted, setSubmitted] = useState(false);
   const overlayRef = useRef(null);
 
   useEffect(() => {
@@ -65,23 +25,13 @@ export default function EmployeePopupForm({ isOpen, onClose, onSubmit, formData,
   const handleChange = (e) =>
     setFormData((f) => ({ ...f, [e.target.name]: e.target.value }));
 
-  const handleFile = (field) => (e) => {
-    const file = e.target.files[0];
-    if (file) setFormData((f) => ({ ...f, [field]: file }));
-  };
-
   const handleSubmit = async(e) => {
-    setSubmitted(true)
     await onSubmit(e)
     setTimeout(() => {
-      setSubmitted(false);
       closeModal();
       setFormData({ fullName: "", jobTitle: "", department: "", resume: null, jobDescription: null });
     }, 1200);
   };
-
-  const isValid =
-    formData.fullName && formData.jobTitle && formData.department && formData.resume && formData.jobDescription;
 
   if (!isOpen && !hiding) return null;
 
@@ -216,25 +166,19 @@ export default function EmployeePopupForm({ isOpen, onClose, onSubmit, formData,
 
           <div style={{ marginTop: 24 }}>
             <button
-              className={`add-btn ${submitted ? "submit-success" : ""}`}
+            disabled={btnLoading}
+              className={`add-btn`}
               onClick={handleSubmit}
-              style={{ opacity: isValid ? 1 : 0.35, cursor: isValid ? "pointer" : "not-allowed" }}
+              style={{cursor: btnLoading ? "default" : "pointer"}}
             >
-              {submitted ? (
-                <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
-                    <path d="M20 6L9 17l-5-5" stroke="#0a0a0a" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                  Employee Added
-                </span>
-              ) : (
+              
                 <span style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
                   <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
                     <path d="M12 5v14M5 12h14" stroke="#0a0a0a" strokeWidth="2.5" strokeLinecap="round" />
                   </svg>
-                  {btnLoading ? "Loading" : "Add Employee"}
+                  {"Add Employee"}
                 </span>
-              )}
+              
             </button>
           </div>
         </div>

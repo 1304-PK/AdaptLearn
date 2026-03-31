@@ -122,9 +122,8 @@
     overflow: hidden;
   }
 
-  .add-btn:hover:not(:disabled) {
-    background: #e8e8e8;
-    transform: translateY(-1px);
+  .add-btn:hover {
+    background: #d3d3d3;
     box-shadow: 0 8px 24px rgba(255,255,255,0.12);
   }
 

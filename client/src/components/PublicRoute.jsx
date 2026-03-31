@@ -15,7 +15,7 @@ const PublicRoute = ({children}) => {
     if (user.user_metadata.role === 'hr') {
       navigate("/admin/dashboard", {replace: true})
     } else if (user.user_metadata.role === 'employee') {
-      navigate("/employee"); 
+      navigate("/employee/resume-metrics"); 
     }
   };
         if (!loading && session){

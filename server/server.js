@@ -11,7 +11,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
 // Middlewares
 app.use(cors({
-    origin: ["http://localhost:5173", "http://localhost:5174"],
+    origin: ["http://localhost:5173", "http://localhost:5174", "https://adapt-learn-sand.vercel.app/"],
     methods: ["GET", "POST", "PUT", "DELETE"]
 }));
 app.use(express.json());

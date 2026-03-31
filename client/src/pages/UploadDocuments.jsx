@@ -21,7 +21,7 @@ const UploadDocuments = () => {
     formData.append("resume", resume)
     formData.append("jobDescription", jobDescription)
     try {
-      const res = await fetch(`${VITE_PUBLIC_API_KEY || "http://localhost:3000"}/api/get-analysis`, {
+      const res = await fetch(`${import.meta.env.VITE_PUBLIC_API_KEY || "http://localhost:3000"}/api/get-analysis`, {
         method: "POST",
         body: formData
       })

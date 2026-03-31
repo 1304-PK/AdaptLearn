@@ -11,8 +11,11 @@ const SignupForm = () => {
     password: '',
   })
 
+  const [loading, setLoading] = useState(false)
+
     const handleSubmit = async(e) => {
         e.preventDefault()
+        setLoading(true)
         try{const {data, error} = await supabase.auth.signUp({
             email: formData.email,
             password: formData.password,
@@ -25,11 +28,13 @@ const SignupForm = () => {
         })
 
         if (error) throw error
-        console.log(data)
       
       }
       catch(error){
         console.error(error.message)
+      }
+      finally{
+        setLoading(false)
       }
     }
 
@@ -40,7 +45,7 @@ const SignupForm = () => {
   return (
     <AuthForm 
     mode={"signup"}
-    title={"Sign Up"}
+    title={"Create Your Account"}
     btnText={"Sign Up"}
     googleAuthText={"Sign Up Using Google"}
     bottomText={"Already have an account?"}
@@ -48,6 +53,7 @@ const SignupForm = () => {
     handleSubmit={handleSubmit}
     formData={formData}
     onChange={onChange}
+    loading={loading}
     />
   )
 }

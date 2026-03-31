@@ -24,10 +24,12 @@ export default function EmployeeDashboard() {
           <AppSidebar handleLogOut={handleLogOut}/>
 
           {/* Main Content */}
-          <main className="flex-1">
+          <main className="flex-1 relative">
                 {/* Sidebar toggle */}
-              <SidebarTrigger />
-                <Outlet />
+              <SidebarTrigger className="absolute z-50 bg-white top-3 left-3"/>
+                <div className="relative">
+                  <Outlet />
+                </div>
 
           </main>
         </SidebarProvider>

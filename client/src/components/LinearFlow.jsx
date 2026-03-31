@@ -11,23 +11,19 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 
-// ─── Custom Node ────────────────────────────────────────────────────────────
-
-
-
 const COLORS = [
-  { bg: "#FF4D4D", text: "#fff", shadow: "#FF4D4D" },   // red
-  { bg: "#FF9F1C", text: "#fff", shadow: "#FF9F1C" },   // amber
-  { bg: "#2EC4B6", text: "#fff", shadow: "#2EC4B6" },   // teal
-  { bg: "#5C6BC0", text: "#fff", shadow: "#5C6BC0" },   // indigo
-  { bg: "#A78BFA", text: "#fff", shadow: "#A78BFA" },   // violet
-  { bg: "#34D399", text: "#fff", shadow: "#34D399" },   // emerald
-  { bg: "#F472B6", text: "#fff", shadow: "#F472B6" },   // pink
-  { bg: "#38BDF8", text: "#fff", shadow: "#38BDF8" },   // sky
+  { bg: "#FF4D4D", text: "#fff", shadow: "#FF4D4D" },   
+  { bg: "#FF9F1C", text: "#fff", shadow: "#FF9F1C" },   
+  { bg: "#2EC4B6", text: "#fff", shadow: "#2EC4B6" },   
+  { bg: "#5C6BC0", text: "#fff", shadow: "#5C6BC0" },   
+  { bg: "#A78BFA", text: "#fff", shadow: "#A78BFA" },   
+  { bg: "#34D399", text: "#fff", shadow: "#34D399" },   
+  { bg: "#F472B6", text: "#fff", shadow: "#F472B6" },   
+  { bg: "#38BDF8", text: "#fff", shadow: "#38BDF8" },  
 ];
 
 function BlockNode({ data }) {
-  
+
 const navigate = useNavigate()
   const color = COLORS[data.colorIndex % COLORS.length];
 
@@ -160,13 +156,15 @@ function buildGraph(items) {
 
 /**
  * LinearFlow
- * @param {Array} items  - Any array; each element becomes a draggable block
- * @param {number} height - Canvas height in px (default 520)
+ * @param {Array} items 
+ * @param {number} height 
  */
 export default function LinearFlow({
   items,
   height = 520,
 }) {
+
+  console.log("items", items)
   const { nodes: initNodes, edges: initEdges } = useMemo(
     () => buildGraph(items),
     [items]
@@ -267,17 +265,6 @@ export default function LinearFlow({
             boxShadow: "none",
           }}
         />
-        {/* <MiniMap
-          nodeColor={(n) =>
-            COLORS[n.data?.colorIndex % COLORS.length]?.bg ?? "#888"
-          }
-          style={{
-            background: "#1A1A1E",
-            border: "1px solid #ffffff15",
-            borderRadius: 10,
-          }}
-          maskColor="#0D0D0Fcc"
-        /> */}
       </ReactFlow>
     </div>
   );

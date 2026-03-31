@@ -70,18 +70,3 @@ const SpiderGraph = ({ data = {}, color = "#a78bfa" }) => {
 };
 
 export default SpiderGraph;
-
-
-// --- Usage ---
-// import SpiderGraph from "./SpiderGraph";
-//
-// const data = {
-//   Frontend_Core: 1,
-//   Performance_Architecture: 0.75,
-//   API_State_Management: 1,
-//   Tooling_Quality: 1,
-//   Leadership_Soft_Skills: 0.5,
-// };
-//
-// <SpiderGraph data={data} />
-// <SpiderGraph data={data} color="#34d399" />

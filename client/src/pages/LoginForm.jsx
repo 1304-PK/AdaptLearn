@@ -3,6 +3,8 @@ import AuthForm from "../components/AuthForm"
 import supabase from "../lib/supabaseClient"
 import { useAuth } from "../context/AuthContext"
 const LoginForm = () => {
+
+  const [loading, setLoading] = useState(false)
     const [role, setRole] = useState("employee");
 const [formData, setFormData] = useState({
     email: '',
@@ -11,6 +13,7 @@ const [formData, setFormData] = useState({
 
   const handleSubmit = async (e) => {
         e.preventDefault()
+        setLoading(true)
         try{
           const {data, error} = await supabase.auth.signInWithPassword({
           email: formData.email.trim(),
@@ -23,6 +26,9 @@ const [formData, setFormData] = useState({
       }
       catch(err){
         console.error(err.message)
+      }
+      finally{
+        setLoading(false)
       }
     }
 
@@ -43,6 +49,7 @@ const [formData, setFormData] = useState({
     handleSubmit={handleSubmit}
     formData={formData}
     onChange={onChange}
+    loading={loading}
     />
   )
 }

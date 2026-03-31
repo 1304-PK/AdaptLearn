@@ -23,10 +23,8 @@ import {
 } from "@/components/ui/sidebar"
 
 const menuItems = [
-  { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-  { title: "Resume Metrics", url: "/metrics", icon: FileText },
-  { title: "Roadmap", url: "/roadmap", icon: Map },
-  { title: "Progress", url: "/progress", icon: User },
+  { title: "Resume Metrics", url: "/employee/resume-metrics", icon: FileText },
+  { title: "Roadmap", url: "/employee/roadmap", icon: Map },
 ]
 
 export function AppSidebar({handleLogOut}) {
@@ -69,7 +67,7 @@ export function AppSidebar({handleLogOut}) {
               ))}
 
               <SidebarMenuItem>
-                <SidebarMenuButton asChild tooltip={"Log Out"}>
+                <SidebarMenuButton asChild tooltip={"Log Out"} className="hover:bg-destructive text-destructive hover:text-white">
                   <button onClick={handleLogOut}>
                     <LogOut/>
                     Log Out

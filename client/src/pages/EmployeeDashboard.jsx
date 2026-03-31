@@ -7,6 +7,9 @@ import { useAuth } from "../context/AuthContext"
 
 export default function EmployeeDashboard() {
 
+  const {user} = useAuth()
+  console.log(user)
+
   const handleLogOut = async() => {
     try{
       const {error} = await supabase.auth.signOut()
@@ -21,7 +24,7 @@ export default function EmployeeDashboard() {
     <TooltipProvider>
         <SidebarProvider>
           {/* 1. Sidebar */}
-          <AppSidebar handleLogOut={handleLogOut}/>
+          <AppSidebar handleLogOut={handleLogOut} user={user.user_metadata.full_name.split(' ')[0]} email={user.email}/>
 
           {/* Main Content */}
           <main className="flex-1 relative">

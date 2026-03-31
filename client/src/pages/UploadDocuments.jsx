@@ -3,9 +3,11 @@ import FileUpload from "../components/FileUpload";
 import supabase from "../lib/supabaseClient";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import { DotLottieReact } from '@lottiefiles/dotlottie-react'
 
 const UploadDocuments = () => {
 
+  const [loading, setLoading] = useState(false)
   const { session } = useAuth()
   const navigate = useNavigate()
 
@@ -13,6 +15,7 @@ const UploadDocuments = () => {
   const [jobDescription, setJobDescription] = useState(null);
 
   const handleSubmit = async () => {
+    setLoading(true)
     const formData = new FormData()
 
     formData.append("resume", resume)
@@ -82,6 +85,9 @@ const UploadDocuments = () => {
     catch (err) {
       console.error(err.message)
     }
+    finally{
+      setLoading(false)
+    }
 
   }
 
@@ -109,6 +115,17 @@ const UploadDocuments = () => {
           );
         }
       `}</style>
+
+      {/* Loading Overlay Page */}
+      {loading && <div className="min-h-full min-w-full bg-[#000000e5] z-10 absolute flex flex-col justify-center items-center">
+<DotLottieReact
+      src="https://lottie.host/26b25b71-b957-4539-8c72-945fc21fd831/SVIeJk7iNz.lottie"
+      loop
+      autoplay
+      height={60}
+    />
+    <p className="text-white text-3xl font-bold">Analyzing Resume</p>
+      </div>}
 
       <div className="min-h-screen bg-[#0a0a0a] flex flex-col items-center justify-center px-6 py-12 font-mono-custom">
 
@@ -143,7 +160,7 @@ const UploadDocuments = () => {
         </div>
 
         <button
-
+        disabled={loading}
           onClick={handleSubmit}
 
           className="

@@ -57,7 +57,7 @@ const UploadDocuments = () => {
 
         const nodeId = nData.id
 
-        const ytRes = await fetch(`${VITE_PUBLIC_API_KEY || "http://localhost:3000"}/api/get-youtube-links`, {
+        const ytRes = await fetch(`${import.meta.env.VITE_PUBLIC_API_KEY || "http://localhost:3000"}/api/get-youtube-links`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ skill: item.skill_name })

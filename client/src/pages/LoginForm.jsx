@@ -19,10 +19,14 @@ const [formData, setFormData] = useState({
           email: formData.email.trim(),
           password: formData.password
         })
-
-        console.log("logged in successfully")
-
+        
         if (error) throw error
+        
+        if (data.user.user_metadata.role != role){
+          await supabase.auth.signOut()
+          throw new Error('Access denied')
+        }
+        
       }
       catch(err){
         console.error(err.message)

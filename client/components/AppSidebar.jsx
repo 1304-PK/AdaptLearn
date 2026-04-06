@@ -8,6 +8,7 @@ import {
   LogOut
 } from "lucide-react"
 
+import { NavLink } from "react-router-dom"
 
 import {
   Sidebar,
@@ -35,7 +36,7 @@ export function AppSidebar({handleLogOut, user, email}) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" asChild>
-              <a href="/">
+              <NavLink to="/">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
                   <GraduationCap className="size-5" />
                 </div>
@@ -43,7 +44,7 @@ export function AppSidebar({handleLogOut, user, email}) {
                   <span className="font-bold">AdaptLearn</span>
                   <span className="text-xs text-muted-foreground">v1.0</span>
                 </div>
-              </a>
+              </NavLink>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -58,10 +59,10 @@ export function AppSidebar({handleLogOut, user, email}) {
               {menuItems.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild tooltip={item.title}>
-                    <a href={item.url}>
+                    <NavLink to={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </NavLink>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}

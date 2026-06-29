@@ -1,2 +1,2 @@
 # AdaptLearn
-a better name yet to be decided
+a project completed
